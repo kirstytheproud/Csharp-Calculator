@@ -1,41 +1,8 @@
 ﻿using System;
+using CalculatorLibrary;
 
-namespace Calculator
+namespace CalculatorProgram
 {
-    class Calculator
-    {
-        public static double DoOperation ( double num1, double num2, string op)
-        {
-            double result = double.NaN; // Default value is "not a number£ if an operation, such as division
-
-            // Use a switch statement for calculations
-            switch (op)
-            {
-                case "a":
-                    result = num1 + num2;
-                    break;
-                    case "s":
-                    result = num1 - num2;
-                    break;
-                case "m":
-                    result = num1 * num2;
-                    break;
-                case "d":
-                    // Ask the user to enter a non-zero divisor.
-                    if (num2 != 0)
-                    {
-                        result = num1 / num2;
-                    }
-                    break;
-                // Reutrn text for an incorrent option entry.
-                default:
-                    break;
-             }
-            return result;
-
-        }
-    }
-
     class Program
     {
         static void Main(string[] args)
@@ -45,7 +12,9 @@ namespace Calculator
             Console.WriteLine("Console Calculato in C#\r");
             Console.WriteLine("-----------------------\n");
 
-            while(!endApp)
+            Calculator calculator = new Calculator();
+
+            while (!endApp)
             {
                 // Declare variables and set to empty.
                 string numInput1 = "";
@@ -58,6 +27,8 @@ namespace Calculator
                 numInput1 = Console.ReadLine();
 
                 double cleanNum1 = 0;
+                //Double TryParse(String, Double) converts the string representation of a number to its double-precision floating-point number equivalent.
+                //A return value indicates whether the conversion succeeded or failed.
                 while (!double.TryParse(numInput1, out cleanNum1))
                 {
                     Console.Write("This is not valid input. Please enter an integer value: ");
@@ -87,7 +58,7 @@ namespace Calculator
 
                 try
                 {
-                    result = Calculator.DoOperation(cleanNum1, cleanNum2, op);
+                     result = calculator.DoOperation(cleanNum1, cleanNum2, op);
                     if (double.IsNaN(result))
                     {
                         Console.WriteLine("This operation will result in a mathematical error. \n");
@@ -106,7 +77,12 @@ namespace Calculator
                 if (Console.ReadLine() == "n") endApp = true;
 
                 Console.WriteLine("\n"); // Friendly linespacing 
+
             }
+
+
+            calculator.Finish();
+            return;
         }
     }
 }
